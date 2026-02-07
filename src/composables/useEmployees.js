@@ -22,5 +22,65 @@ export function useEmployees() {
         }
     }
 
+    // Crear empleado
+    async function createEmployee(payload) {
+        loading.value = true;
+        error.value = null;
+        
+        try {
+            await employeeService.create(payload);
+            await loadEmployees();
+        } catch (err) {
+            error.value = err.message || String(err);
+            console.error('Error creando empleados');
+            throw err;
+        } finally {
+            loading.value = false;
+        }
+    }
+
+    // Actualizar empleado
+    async function updateEmployee(id, payload) {
+        loading.value = true;
+        error.value = null;
+
+        try {
+            await employeeService.update(id, payload);
+            await loadEmployees();
+        } catch (err) {
+            error.value = err.message || String(err);
+            console.error('Error actualizando empleado:', err)
+            throw err;
+        } finally {
+            loading.value = false
+        }
+    }
+
+    // Eliminar empleado
+    async function deleteEmployee(id) {
+        loading.value = true;
+        error.value = null;
+
+        try {
+            await employeeService.delete(id);
+            await loadEmployees();
+        } catch (err) {
+            error.value = err.message || String(err);
+            console.error('Error eliminando empleado:', err);
+            throw err;
+        } finally {
+            loading.value = false;
+        }
+    }
+
+    return {
+        employees,
+        loading,
+        error,
+        loadEmployees,
+        createEmployee,
+        updateEmployee,
+        deleteEmployee,
+    };
     
 }

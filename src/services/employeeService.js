@@ -22,13 +22,8 @@ export const employeeService = {
             .select('*')
             .order('name')
 
-        if(error) {
-            console.error('Error:', error);
-        } else {
-            users.value = data
-        }
-
-        loading.value = false
+        if (error) throw error;
+        return data;
     },
 
 
